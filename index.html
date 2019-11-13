@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>eChook Demo Data Site</title>
+</head>
+
+<!-- My css -->
+<link rel="stylesheet" href="css/main.css" type="text/css">
+
+<body>
+  <!-- Fork on Github button - feel free to delete -->
+  <a style="position:fixed; top:0; right:0" href="https://github.com/echook/echook-demo-site"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_orange_ff7600.png?resize=149%2C149" class="attachment-full size-full"
+      alt="Fork me on GitHub" data-recalc-dims="1"></a>
+  <!--end of Github Button  -->
+
+
+  <div id="vue">
+    <h1>eChook dweet data - demo page</h1>
+    <br>
+    This is a very basic example web interface using Vue.js to fetch and show dweet.io data from an eChook, hosted for free on Github!
+    If you want to create your own dashbard, feel free to fork this repository and make the site your own.
+    <br>
+    <br>
+    For more information please go to the <a href="https://docs.echook.uk">eChook documentation</a>. <strong>TODO:</strong> Write the documentation for this and update the link!
+    <br>
+    <br>
+    Note: dweet.io is SLOW! It's slowed down considerably since eChook started using it. This site by default polls for new data every 5 seconds, but it will still occasionally rate limit.
+    <br>
+    <br>
+    Enter your 'thing name' and hit go!
+    <div class="">
+      <input type="text" v-model="thingName" name="" value="" placeholder="Enter Dweet Thing Name">
+      <button type="button" v-on:click="startDweet" name="button">{{buttonText}}</button>
+      <h3>Status: {{status}}</h3>
+    </div>
+    <div id="data-view" class="">
+      <p>Voltage: {{dweet.voltage}}V</p>
+      <p>Voltage Lower Battery: {{dweet.voltageLow}}V</p>
+      <p>Voltage Higher Battery: {{dweet.voltageHigh}}V</p>
+      <p>Current: {{dweet.current}}A</p>
+      <p>RPM: {{dweet.rpm}}RPM</p>
+      <p>Speed: {{dweet.speed}}m/s/s</p>
+      <p>Throttle: {{dweet.throttle}}%</p>
+      <p>Temp1: {{dweet.t1}}c</p>
+      <p>Temp2: {{dweet.t2}}c</p>
+      <p>Amp Hours Used: {{dweet.ampHours}}Ah</p>
+      <p>Current Lap: {{dweet.lap}}</p>
+      <p>Gear: {{dweet.gear}}</p>
+      <p>Brake: {{dweet.brake}}</p>
+    </div>
+  </div>
+</body>
+
+<!-- Includes -->
+<!-- Vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.2.0/vue-resource.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<!-- My Script -->
+<script type='text/javascript' src="scripts/main.js" charset="utf-8"></script>
+
+</html>
