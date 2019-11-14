@@ -1,12 +1,12 @@
-Vue.use(VueResource);
+Vue.use(VueResource); //Required for GET requests to dweet.io
 
 let app = new Vue({
   el: "#vue",
   data: {
-    thingName: "echook",
+    thingName: "echook", //Dweet Thing name
     buttonText: "Go!",
     status: "Idle",
-    dweet: {
+    dweet: { // This holds the latest data from dweet and is accessible in HTML with {{dweet.dataName}}
       updated: 0,
       voltage: 0,
       voltageLow: 0,
@@ -26,39 +26,45 @@ let app = new Vue({
   },
   methods: {
     getData: function() {
-      console.log(`polling`);
+      // This function is called perioducally and asks dweet for the latest data for your thing Name
+      // It checks if the data is new, and if it is passes it to the updateData function.
+      // It also updates the "satus" text if errors occur.
       var self = this;
       this.$http.get(`https://dweet.io/get/latest/dweet/for/${this.thingName}`).then(function(response) {
         if (response.status == "200") {
-          // console.log(response.data.with[0].content);
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.this === "succeeded" && response.data.with[0].created != this.dweet.updated) {
-            this.dweet.updated = response.data.with[0].created;
-            this.status = `Getting Dweets from ${this.thingName}, updated: ${this.dweet.updated}`
+            // If data request succeeded, and time stamp isn't the same as the current data
+            this.dweet.updated = response.data.with[0].created; //Update last updated time
+            this.status = `Getting Dweets from ${this.thingName}, updated: ${this.dweet.updated}`; //Update Status text
             if (this.polling != null) { // after stop is presse previously requested data may still be coming in
-              this.updateData(response.data.with[0].content);
+              this.updateData(response.data.with[0].content); //Call updateData function, passing new data from dweet data
             }
-          } else if (response.data.this === "failed") {
+          } else if (response.data.this === "failed") { //if response failed, update status with reason
             this.status = `Request failed with error: ${response.data.because}`
           }
         }
       })
     },
     startDweet: function() {
+      // This function is called when you press the go/stop button.
       if (this.polling === null) {
-        this.status = `Getting Dweets from ${this.thingName}`;
-        this.buttonText = "Stop";
-        console.log(`Start`);
-        this.getData() // First request before poll interval
+        // The polling variable holds the repeating function call to dweet.
+        // if it is null, we're not requesting data, so the button needs to start requesting
+        this.status = `Getting Dweets from ${this.thingName}`; // Updates status with the thing name being used`
+        this.buttonText = "Stop"; //Changes button text to stop
+        console.log(`Start Polling`);
+        this.getData() // First request before poll interval, otherwise it waits the poll interval before first request
         this.polling = setInterval(() => {
-          this.getData()
-        }, 5000)
+          this.getData();
+        }, 5000); // Calls getData every 5000ms
       } else {
+        //Polling != null, therefore we have pressed the stop button
         console.log("Stop");
-        clearInterval(this.polling)
-        this.polling = null;
-        this.status = "Idle";
-        this.buttonText = "Go!";
+        clearInterval(this.polling) // Stops polling
+        this.polling = null; // Sets polling variable to null
+        this.status = "Idle"; // Sets Status Text
+        this.buttonText = "Go!"; // Sets buttont text
 
       }
 
