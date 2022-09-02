@@ -5,7 +5,7 @@ let app = new Vue({
   data: {
     thingName: "echook", //Dweet Thing name
     buttonText: "Go!",
-    status: "Idle",
+    status: "Not Connected",
     dweet: { // This holds the latest data from dweet and is accessible in HTML with {{dweet.dataName}}
       updated: 0,
       voltage: 0,
